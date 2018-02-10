@@ -5,8 +5,10 @@
  *
  */
 
+#include "file_utilities.h"
+
 int main(int argc, char** argv){
- 
+read_file("test.txt",argv);
 
 
 
