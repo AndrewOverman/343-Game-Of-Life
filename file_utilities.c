@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int read_file( char* filename, char **buffer ){
 
@@ -12,28 +13,29 @@ int read_file( char* filename, char **buffer ){
 
 		fileptr = fopen(filename,"r");
 
-		if(!fileptr){
-			return 1;
+		if(fileptr == NULL){
+			printf("Error, could not find file\n");
+			return 0;
 		}
 		
 		while(fgets(*buffer,1000,fileptr)!=NULL){
 			printf("%s",*buffer);
-			/*
-			if(x == 0){
-				width = *fileptr;
-			}
-			if(x == 1){
-				height = *fileptr;
-			}
-			*/
 		}
+
 		fclose(fileptr);
 
 		return 0;
 }
 
 int write_file( char* filename, char *buffer, int size){
+		FILE *fileptr;
 
+		fileptr = fopen(filename, "w");
 
+		if(fileptr == NULL){
+			printf("Error, could not find file\n");
+			return 0;
+		}
 
+		fprintf(fileptr, buffer, size);
 }
