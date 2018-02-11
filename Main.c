@@ -17,17 +17,25 @@
  */
 
 int main(int argc, char** argv){
-
+	int i, j = 0;
 	char* buffer = "hello there test";
 	char userinput[80];
+	int* board;
 
 	printf("%s\n", argv[1]);
 	printf("%s\n", argv[2]);
-	createBoard(atoi(argv[1]),atoi(argv[2]));
+	board = createBoard(atoi(argv[1]),atoi(argv[2]),board);
+	
 /*
-copyBoard();
-
 	while(){
+		copyBoard(atoi(argv[1],atoi(argv[2]),board);
+
+		for(int i; i < atoi(argv[1]); i++){
+			for(int j; j < atoi(argv[2]); j++){
+				checkSurrondings(atoi(argv[1]),atoi(argv[2]), board);
+			}
+		}
+
 		update();
 	
 		printf("Options: \n");
@@ -37,7 +45,7 @@ copyBoard();
 		scanf("%s",userinput);
 
 		if(userinput.tolower = "continue"){
-			break;	
+				
 		}
 		else if(userinput.tolower = "save"){
 			write_file(placeholder,placeholder,placerholder);

@@ -27,7 +27,7 @@ int write_file( char* filename, char* buffer, int size);
  *@Param int y: the width of the board
  *@return int: 0 if successful
  */
-int createBoard(int x, int y);
+int* createBoard(int x, int y, int* buffer);
 
 /*
  *A method to check the surroundings of a cell and update that cell
@@ -38,9 +38,15 @@ int createBoard(int x, int y);
 int checkSurroundings(int x, int y, int** buffer);
 
 /*
- *A method to render the board
+ *A method to make a copy of the board
  *@Param int** buffer: the board
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void renderBoard(int x, int y, int** buffer);
+void copyBoard(int x, int y, int** buffer);
+
+/*
+ *A method to update the cells on the board
+ *@Param int** buffer: the board
+ */
+void updateBoard(int** buffer);

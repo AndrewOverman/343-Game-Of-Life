@@ -61,10 +61,10 @@ int write_file( char* filename, char *buffer, int size){
  *@Param int y: the width of the board
  *@return int: 0 if successful
  */
-int createBoard(int x, int y){
+int** createBoard(int x, int y, int* Buffer){
 	int i, j, count = 0;
 	int *arr[x];
-
+	Buffer = *arr;
 		for(i = 0; i < x; i++)
 			arr[i] = (int*)malloc(y* sizeof(int));
 
@@ -75,7 +75,7 @@ int createBoard(int x, int y){
 			}
 			printf("\n");
 		}
-		return 0;
+		return Buffer;
 }
 
 /*
@@ -141,5 +141,22 @@ void copyBoard(int x, int y, int** buffer){
 		for(j = 0; j < y; j++){
 			copy[i][j] = buffer[i][j];
 		}
+	}
+}
+
+/*
+ *A method to display the new board after a generation
+ *@Param int** buffer: the board
+ *@Param int x: the width of the board
+ *@Param int y: the height of the board
+ */
+void updateBoard(int x, int y, int** buffer){
+	int i, j = 0;
+
+	for(i = 0; i < x; i++){
+		for(j = 0; j < y; j++){
+			printf("|%i|",buffer[i][j]);		
+		}
+		printf("\n");
 	}
 }
