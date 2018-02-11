@@ -21,7 +21,7 @@ int read_file( char* filename, char **buffer ){
 
 		if(fileptr == NULL){
 			printf("Error, could not find file\n");
-			return 0;
+			return 1;
 		}	
 		
 		while(fgets(*buffer,1000,fileptr)!=NULL){
@@ -51,6 +51,7 @@ int write_file( char* filename, char *buffer, int size){
 		}
 
 		fprintf(fileptr, buffer, size);
+		return 0;
 }
 
 /*
@@ -60,7 +61,7 @@ int write_file( char* filename, char *buffer, int size){
  *@return int: 0 if successful
  */
 int createBoard(int x, int y){
-	int i, j, count = 0'
+	int i, j, count = 0;
 	int *arr[x];
 
 		for(i = 0; i < x; i++)
@@ -71,6 +72,7 @@ int createBoard(int x, int y){
 				arr[i][j] = ++count;
 				printf("%i", arr[i][j]);
 			}
+			printf("\n");
 		}
 		return 0;
 }
@@ -79,7 +81,60 @@ int createBoard(int x, int y){
  *A method to check the surroundings of the cell and update the cell
  *@Param int x: the x coordinate of the cell
  *@Param int y: the y coordinate of the cell
+ *@Param int** buffer: the board
+ *@return int: returns what the cell should be: 0 if empty, 1 if alive, 2 if dead
  */
-int checkSurroundings(int x, int y){
+int checkSurroundings(int x, int y, int** buffer){
+	int state = buffer[x][y];
+	x--;
+	y--;
+	int count = 0;
+	if (buffer[x][y] == 1)
+		count++;
+	x++;
+	if (buffer[x][y] == 1)
+		count++;
+	x++;
+	if (buffer[x][y] == 1)
+		count++;
+	x = x - 2;
+	y++;
+	if (buffer[x][y] == 1)
+		count++;
+	x = x + 2;
+	if (buffer[x][y] == 1)
+		count++;
+	x = x - 2;
+	y++;
+	if (buffer[x][y] == 1)
+		count++;
+	x++;
+	if (buffer[x][y] == 1)
+		count++;
+	x++;
+	if (buffer[x][y] == 1)
+		count++;
+	if (count < 2 && state == 1)
+		return 2;
+	if ((count == 2 || count == 3) && state  == 1)
+		return 1;
+	if (count == 3 && state == 2)
+		return 1;
+	return 0;
+}
 
+/*
+ *A method to render the board
+ *@Param int** buffer: the board
+ *@Param int x: the width of the board
+ *@Param int y: the height of the board
+ */
+void renderBoard(int x, int y, int** buffer){
+	int i, j = 0;
+	for(i = 0; i < x; i++){
+		for(j = 0; j < y; j++){
+			printf("%i", buffer[i][j]);
+		}
+		printf("\n");
+	}
 }
