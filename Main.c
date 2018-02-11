@@ -9,7 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+/*
+ *This is a main method to run the whole project
+ *@Param int argc: The number of arguments given in the command line
+ *@Param char** argv: The array of arguments given in the command line
+ */
 int main(int argc, char** argv){
 
 	char* buffer = "hello there test";
@@ -22,21 +26,4 @@ int main(int argc, char** argv){
 
 
 }
-int createBoard(int x, int y){
-	int i,j,count = 0;
-	int *arr[x];
-		
-		for(i = 0; i < x; i++)
-			 arr[i] = (int*)malloc(y * sizeof(int));
 
-		for(i = 0; i < x; i++){
-			for(j = 0; j < y; j++){
-				arr[i][j] = ++count;
-				printf("%i", arr[i][j]);
-			}
-		}
-		return 0;
-}
-int checkSurrondings(){
-	return 0;
-}
