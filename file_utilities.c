@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 /*
  *Reads in the contents of a file to the program
@@ -68,9 +69,9 @@ int createBoard(int x, int y){
 			arr[i] = (int*)malloc(y* sizeof(int));
 
 		for(i = 0; i < x; i++){
-			for(j = 0; j < y; j++){
-				arr[i][j] = ++count;
-				printf("%i", arr[i][j]);
+			for(j = 0; j < y; j++){	
+				arr[i][j] = 1;
+				printf("|%i|",arr[i][j]);
 			}
 			printf("\n");
 		}
@@ -124,17 +125,21 @@ int checkSurroundings(int x, int y, int** buffer){
 }
 
 /*
- *A method to render the board
+ *A method to make a copy of the board
  *@Param int** buffer: the board
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void renderBoard(int x, int y, int** buffer){
+void copyBoard(int x, int y, int** buffer){
 	int i, j = 0;
+	int *copy[x];
+
+	for(i = 0; i < x; i++)
+		copy[i] = (int*)malloc(y* sizeof(int));
+
 	for(i = 0; i < x; i++){
 		for(j = 0; j < y; j++){
-			printf("%i", buffer[i][j]);
+			copy[i][j] = buffer[i][j];
 		}
-		printf("\n");
 	}
 }

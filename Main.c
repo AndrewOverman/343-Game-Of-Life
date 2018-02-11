@@ -24,7 +24,8 @@ int main(int argc, char** argv){
 	printf("%s\n", argv[1]);
 	printf("%s\n", argv[2]);
 	createBoard(atoi(argv[1]),atoi(argv[2]));
-	copyBoard();
+/*
+copyBoard();
 
 	while(){
 		update();
@@ -45,5 +46,6 @@ int main(int argc, char** argv){
 			read_file(placeholder,placeholder,placeholder);
 		}
 	}
+*/
 }
 
