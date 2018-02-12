@@ -61,13 +61,13 @@ int write_file( char* filename, char *buffer, int size){
  *@Param int y: the width of the board
  *@return int: 0 if successful
  */
-int** createBoard(int x, int y, int* Buffer){
-	int i, j, count = 0;
+int* createBoard(int x, int y, int* Buffer){
+	int i, j = 0;
 	int *arr[x];
-	Buffer = *arr;
+
+	
 		for(i = 0; i < x; i++)
 			arr[i] = (int*)malloc(y* sizeof(int));
-
 		for(i = 0; i < x; i++){
 			for(j = 0; j < y; j++){	
 				arr[i][j] = 1;
@@ -75,6 +75,7 @@ int** createBoard(int x, int y, int* Buffer){
 			}
 			printf("\n");
 		}
+		*Buffer = &arr;
 		return Buffer;
 }
 
@@ -85,7 +86,7 @@ int** createBoard(int x, int y, int* Buffer){
  *@Param int** buffer: the board
  *@return int: returns what the cell should be: 0 if empty, 1 if alive, 2 if dead
  */
-int checkSurroundings(int x, int y, int** buffer){
+int checkSurround(int x, int y, int** buffer){
 	int state = buffer[x][y];
 	x--;
 	y--;
@@ -105,6 +106,7 @@ int checkSurroundings(int x, int y, int** buffer){
 	x = x + 2;
 	if (buffer[x][y] == 1)
 		count++;
+	
 	x = x - 2;
 	y++;
 	if (buffer[x][y] == 1)
@@ -139,6 +141,7 @@ void copyBoard(int x, int y, int** buffer){
 
 	for(i = 0; i < x; i++){
 		for(j = 0; j < y; j++){
+			copy[i][j] = 1;
 			copy[i][j] = buffer[i][j];
 		}
 	}
@@ -146,11 +149,11 @@ void copyBoard(int x, int y, int** buffer){
 
 /*
  *A method to display the new board after a generation
- *@Param int** buffer: the board
+ *@Param int* buffer: the board
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void updateBoard(int x, int y, int** buffer){
+void updateBoard(int** buffer, int x, int y){
 	int i, j = 0;
 
 	for(i = 0; i < x; i++){

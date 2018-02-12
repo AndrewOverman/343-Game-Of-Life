@@ -9,7 +9,8 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <unistd.h>
-
+	
+	int checkSurrond(int x, int y, int** buffer);
 /*
  *This is a main method to run the whole project
  *@Param int argc: The number of arguments given in the command line
@@ -18,26 +19,29 @@
 
 int main(int argc, char** argv){
 	int i, j = 0;
-	char* buffer = "hello there test";
-	char userinput[80];
-	int* board;
+	//char* buffer = "hello there test";
+	//char userinput[80];
+	int* board[atoi(argv[1])];
 
 	printf("%s\n", argv[1]);
 	printf("%s\n", argv[2]);
-	board = createBoard(atoi(argv[1]),atoi(argv[2]),board);
 	
+	*board = createBoard(atoi(argv[1]),atoi(argv[2]),*board);
+	//printf("%i", board);
 /*
 	while(){
 		copyBoard(atoi(argv[1],atoi(argv[2]),board);
-
-		for(int i; i < atoi(argv[1]); i++){
-			for(int j; j < atoi(argv[2]); j++){
-				checkSurrondings(atoi(argv[1]),atoi(argv[2]), board);
-			}
+*/
+	for(i = 0; i < atoi(argv[1]); i++){
+		for(j = 0; j < atoi(argv[2]); j++){	
+			//checkSurrond(atoi(argv[1]),atoi(argv[2]), board);
 		}
+	}
 
-		update();
+	//updateBoard(board, atoi(argv[1]),atoi(argv[2]));
 	
+		
+	/*
 		printf("Options: \n");
 		printf("		-Continue\n");
 		printf("		-Save\n");

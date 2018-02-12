@@ -35,7 +35,7 @@ int* createBoard(int x, int y, int* buffer);
  *@Param int y: the y coordinate of the cell
  *@return int: returns what the cell should be: 0 if empty, 1 if alive, 2 if dead
  */
-int checkSurroundings(int x, int y, int** buffer);
+int checkSurround(int x, int y, int** buffer);
 
 /*
  *A method to make a copy of the board
@@ -48,5 +48,7 @@ void copyBoard(int x, int y, int** buffer);
 /*
  *A method to update the cells on the board
  *@Param int** buffer: the board
+ *@Param int x: the width of the board
+ *@Param int y: the height of the board
  */
-void updateBoard(int** buffer);
+void updateBoard(int** buffer, int x, int y);
