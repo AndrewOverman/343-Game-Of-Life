@@ -21,6 +21,7 @@ int main(int argc, char** argv){
 	/** ints for the for loops later */
 	int i, j = 0;
 
+	//https://www.tutorialspoint.com/c_standard_library/c_function_atoi.htm we used this to learn how to use atoi
 	/** x and y are the columns and rows for our board */
 	int x = atoi(argv[2]);
 	int y = atoi(argv[1]);
@@ -61,7 +62,9 @@ int main(int argc, char** argv){
 		printf("\tto Exit: press 4\n");
 
 		printf("\n");
-
+		
+		//I saw what you posted on slack about scanf, but I didn't see any alternatives and this doesn't seem to be causing errors for me so I used it. 
+		//https://en.wikibooks.org/wiki/C_Programming/Simple_input_and_output I used this for reference on how to use it
 		scanf("%s", uInput);
 		
 		choose = atoi(uInput);
@@ -82,8 +85,6 @@ int main(int argc, char** argv){
 		else if(choose == 3){
 			printf("The Next Generation is: \n\n");
 			copyBoard(x, y, (&board), (&copy));
-			updateBoard(x, y, (&board));
-			updateBoard(x, y, (&copy));
 			//this calls check Surround on every spot on the board
 			for(i = 0; i < x; i++){
 				for(j = 0; j < y; j++){	
@@ -92,7 +93,8 @@ int main(int argc, char** argv){
 			}
 			updateBoard(x, y, (&board));
 		}
-		//this is what happens when the user gives invalid input or the exit code. It frees all the memory in the board and copy, then frees board and copy. 
+		//this is what happens when the user gives invalid input or the exit code. It frees all the memory in the board and copy, then frees board and copy.
+		//https://www.tutorialspoint.com/c_standard_library/c_function_free.htm I used this for reference
 		else {
 			printf("goodbye\n");
 			for (i = 0; i < x; i++) {
