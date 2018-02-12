@@ -17,46 +17,92 @@
  */
 
 int main(int argc, char** argv){
+	
+	/** ints for the for loops later */
 	int i, j = 0;
-	//char* buffer = "hello there test";
-	//char userinput[80];
-	int* board[atoi(argv[1])];
 
-	printf("%s\n", argv[1]);
-	printf("%s\n", argv[2]);
+	/** x and y are the columns and rows for our board */
+	int x = atoi(argv[2]);
+	int y = atoi(argv[1]);
 	
-	*board = createBoard(atoi(argv[1]),atoi(argv[2]),*board);
-	printf("%i\n", board);
-/*
-	while(){
-		copyBoard(atoi(argv[1],atoi(argv[2]),board);
-*/
-	for(i = 0; i < atoi(argv[1]); i++){
-		for(j = 0; j < atoi(argv[2]); j++){	
-			checkSurround(atoi(argv[1]),atoi(argv[2]), board);
-		}
-	}
+	/** this double pointer points to a list of pointers. We itterate through this list of pointers whenever we want to change or read the board. */ 
+	int** board;
 
-	//updateBoard(board, atoi(argv[1]),atoi(argv[2]));
+	/** this double pointer is a copy of board and is reffered to when board is currently being changed so that the changes can remain consistent. */
+	int** copy;
+
+	//these method calls instantiate board and copy to the size specified in the command line
+	createBoard(x, y, (&board));
+	createBoard(x, y, (&copy));
 	
+	//This is the method used to print the board
+	updateBoard(x, y, (&board));
+	
+	/** This is the filename used later in the save and load functions */
+	char* filename = "test.txt";
+
+	/** This is the int that the user changes to make their choice of action */
+	int choose = 1;
+	
+	//an int to make a while true loop
+	int q = 100;
+
+	//a string to take the userinput for the option they choose
+	char* uInput = malloc(sizeof(char));
+
+	//a while true loop that continues until the user gives invalid input, or the exit input
+	while(q == 100){
 		
-	/*
+		//the 4 input options
 		printf("Options: \n");
-		printf("		-Continue\n");
-		printf("		-Save\n");
-		printf("		-Load\n");
-		scanf("%s",userinput);
+		printf("\tto Load: press 1\n");
+		printf("\tto Save: press 2\n");
+		printf("\tto Cont: press 3\n");
+		printf("\tto Exit: press 4\n");
 
-		if(userinput.tolower = "continue"){
-				
+		printf("\n");
+
+		scanf("%s", uInput);
+		
+		choose = atoi(uInput);
+
+		printf("\n");
+		
+		//this is if the user picks to open a file. The file comes from the variable filename. Change this variable to choose a different file
+		if(choose == 1){
+			printf("loading...\n\n");
+			//read_file(filename, board);
 		}
-		else if(userinput.tolower = "save"){
-			write_file(placeholder,placeholder,placerholder);
+		//this is to save the board to a file. The file comes from the variable filename. Change this variable to choose a different save location. 
+		else if(choose == 2){
+			printf("saving...\n\n");
+			//write_file();
 		}
-		else{
-			read_file(placeholder,placeholder,placeholder);
+		//This is the next generation option. All the code for making the next generation and printing it will run if this is chosen. 
+		else if(choose == 3){
+			printf("The Next Generation is: \n\n");
+			copyBoard(x, y, (&board), (&copy));
+			updateBoard(x, y, (&board));
+			updateBoard(x, y, (&copy));
+			//this calls check Surround on every spot on the board
+			for(i = 0; i < x; i++){
+				for(j = 0; j < y; j++){	
+					board[i][j] = checkSurround(i, j, (&copy));
+				}
+			}
+			updateBoard(x, y, (&board));
+		}
+		//this is what happens when the user gives invalid input or the exit code. It frees all the memory in the board and copy, then frees board and copy. 
+		else {
+			printf("goodbye\n");
+			for (i = 0; i < x; i++) {
+				free(board[i]);
+				free(copy[i]);
+			}
+			free(board);
+			free(copy);
+			return 0;
 		}
 	}
-*/
 }
 

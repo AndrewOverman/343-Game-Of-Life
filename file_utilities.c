@@ -11,7 +11,7 @@
 /*
  *Reads in the contents of a file to the program
  *@Param char* filename: The name of the file being read
- *@Param char** buffer: FIXME
+ *@Param char** buffer: The array that the board is being saved into
  *@return int: 0 if successful
  */
 int read_file( char* filename, char **buffer ){
@@ -37,8 +37,8 @@ int read_file( char* filename, char **buffer ){
 /*
  *Saves the contents of the simulator to a file.
  *@Param char* filename: This is the name of the file that the method saves to
- *@Param char* buffer: FIXME
- *@Param int size: This is the number of elements FIXME
+ *@Param char* buffer: The array that the board is being saved into
+ *@Param int size: The size of the file being saved
  *@return int: 0 if successful
  */
 int write_file( char* filename, char *buffer, int size){
@@ -60,23 +60,18 @@ int write_file( char* filename, char *buffer, int size){
  *@Param int x: the height of the board
  *@Param int y: the width of the board
  *@return int: 0 if successful
+ * I got help from Alan Sisouphone on Slack for how to pass the array around
+ * We also used https://www.geeksforgeeks.org/dynamically-allocate-2d-array-c/ for reference. We used example number 3 on this site. 
  */
-int* createBoard(int x, int y, int* ptr){
+void createBoard(int x, int y, int*** buffer){
 	int i, j = 0;
-	int *arr[x];
-
+	(*buffer) = (int**)malloc(x * sizeof(int *));
+	for (i = 0; i < x; i++)
+		(*buffer)[i] = (int*)malloc(y * sizeof(int));
 	
-		for(i = 0; i < x; i++)
-			arr[i] = (int*)malloc(y* sizeof(int));
-		for(i = 0; i < x; i++){
-			for(j = 0; j < y; j++){	
-				arr[i][j] = 1;
-				printf("|%i|",arr[i][j]);
-			}
-			printf("\n");
-		}
-		ptr = &arr;
-		return ptr;
+	for (i = 0; i < x; i++)
+		for(j = 0; j < y; j++)
+			(*buffer)[i][j] = 0;
 }
 
 /*
@@ -85,44 +80,164 @@ int* createBoard(int x, int y, int* ptr){
  *@Param int y: the y coordinate of the cell
  *@Param int** buffer: the board
  *@return int: returns what the cell should be: 0 if empty, 1 if alive, 2 if dead
+ * I got help from Alan Sisouphone for how to pass the array around
  */
-int checkSurround(int x, int y, int** buffer){
-	int state = buffer[x][y];
-	x--;
-	y--;
+int checkSurround(int x, int y, int*** buffer){
+	int state = (*buffer)[x][y];
 	int count = 0;
-	if (buffer[x][y] == 1)
-		count++;
-	x++;
-	if (buffer[x][y] == 1)
-		count++;
-	x++;
-	if (buffer[x][y] == 1)
-		count++;
-	x = x - 2;
-	y++;
-	if (buffer[x][y] == 1)
-		count++;
-	x = x + 2;
-	if (buffer[x][y] == 1)
-		count++;
-	
-	x = x - 2;
-	y++;
-	if (buffer[x][y] == 1)
-		count++;
-	x++;
-	if (buffer[x][y] == 1)
-		count++;
-	x++;
-	if (buffer[x][y] == 1)
-		count++;
+	//This if block checks all non edge or corner spaces
+	if(x > 0 && y > 0 && x < (sizeof((*buffer))/sizeof(int*)) && y < (sizeof((*buffer)[0])/sizeof(int))) {
+		x--;
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x = x - 2;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x = x + 2;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x = x - 2;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	} //This if block checks the top left corner
+	else if(x == 0 && y == 0) {
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x--;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	} //This if block checks the bottom right corner
+	else if(x == (sizeof((*buffer))/sizeof(int*)) && y == (sizeof((*buffer)[0])/sizeof(int))) {
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	} //This if block checks the bottom left corner
+	else if(x == 0 && y == (sizeof((*buffer)[0])/sizeof(int))) {
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	} //This if block checks the top right corner
+	else if(x == (sizeof((*buffer))/sizeof(int*)) && y == 0) {
+		x--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	}// This if block checks the Left edge
+	else if(x == 0 && y > 0 && y < (sizeof((*buffer)[0])/sizeof(int))) {
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	}//This if block checks the right Edge
+	else if(x == (sizeof((*buffer))/sizeof(int*)) && y > 0 && y < (sizeof((*buffer)[0])/sizeof(int))) {
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	}//This if block checks the top edge
+	else if(y == 0 && x > 0 && x < (sizeof((*buffer))/sizeof(int*))) {
+		x--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	}//This if block checks the bottom edge
+	else if(y == (sizeof((*buffer))/sizeof(int*)) && x > 0 && x < (sizeof((*buffer)[0])/sizeof(int*))) {
+		x--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y--;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		x++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+		y++;
+		if ((*buffer)[x][y] == 1)
+			count++;
+	}//This checks count to see how many neighbors there are, and also checks state to see what the correct action to take is.
 	if (count < 2 && state == 1)
 		return 2;
-	if ((count == 2 || count == 3) && state  == 1)
+	else if ((count == 2 || count == 3) && state  == 1)
 		return 1;
-	if (count == 3 && state == 2)
+	else if (count == 3 && state == 2)
 		return 1;
+	else if (count > 3 && state == 1)
+		return 2;
+	else
+		return state;
 	return 0;
 }
 
@@ -131,21 +246,16 @@ int checkSurround(int x, int y, int** buffer){
  *@Param int** buffer: the board
  *@Param int x: the width of the board
  *@Param int y: the height of the board
+ * I got help from Alan Sisouphone to know how to pass the array around
  */
-int* copyBoard(int x, int y, int** buffer){
+void copyBoard(int x, int y, int*** buffer, int*** copy){
 	int i, j = 0;
-	int *copy[x];
-
-	for(i = 0; i < x; i++)
-		copy[i] = (int*)malloc(y* sizeof(int));
 
 	for(i = 0; i < x; i++){
 		for(j = 0; j < y; j++){
-			copy[i][j] = 1;
-			copy[i][j] = buffer[i][j];
+			(*copy)[i][j] = (*buffer)[i][j];
 		}
 	}
-	return *copy;
 }
 
 /*
@@ -154,13 +264,14 @@ int* copyBoard(int x, int y, int** buffer){
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void updateBoard(int** buffer, int x, int y){
+void updateBoard(int x, int y, int*** buffer){
 	int i, j = 0;
 
 	for(i = 0; i < x; i++){
 		for(j = 0; j < y; j++){
-			printf("|%i|",buffer[i][j]);		
+			printf("|%i",(*buffer)[i][j]);		
 		}
-		printf("\n");
+		printf("|\n");
 	}
+	printf("\n\n\n");
 }

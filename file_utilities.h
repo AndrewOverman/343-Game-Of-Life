@@ -27,7 +27,7 @@ int write_file( char* filename, char* buffer, int size);
  *@Param int y: the width of the board
  *@return int: 0 if successful
  */
-int* createBoard(int x, int y, int* ptr);
+void createBoard(int x, int y, int*** buffer);
 
 /*
  *A method to check the surroundings of a cell and update that cell
@@ -35,7 +35,7 @@ int* createBoard(int x, int y, int* ptr);
  *@Param int y: the y coordinate of the cell
  *@return int: returns what the cell should be: 0 if empty, 1 if alive, 2 if dead
  */
-int checkSurround(int x, int y, int** buffer);
+int checkSurround(int x, int y, int*** buffer);
 
 /*
  *A method to make a copy of the board
@@ -43,7 +43,7 @@ int checkSurround(int x, int y, int** buffer);
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void copyBoard(int x, int y, int** buffer);
+void copyBoard(int x, int y, int*** buffer, int*** copy);
 
 /*
  *A method to update the cells on the board
@@ -51,4 +51,4 @@ void copyBoard(int x, int y, int** buffer);
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void updateBoard(int** buffer, int x, int y);
+void updateBoard(int x, int y, int*** buffer);
