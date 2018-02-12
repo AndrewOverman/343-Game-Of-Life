@@ -61,7 +61,7 @@ int write_file( char* filename, char *buffer, int size){
  *@Param int y: the width of the board
  *@return int: 0 if successful
  */
-int* createBoard(int x, int y, int* Buffer){
+int* createBoard(int x, int y, int* ptr){
 	int i, j = 0;
 	int *arr[x];
 
@@ -75,8 +75,8 @@ int* createBoard(int x, int y, int* Buffer){
 			}
 			printf("\n");
 		}
-		*Buffer = &arr;
-		return Buffer;
+		ptr = &arr;
+		return ptr;
 }
 
 /*

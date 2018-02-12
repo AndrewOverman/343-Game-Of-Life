@@ -27,7 +27,7 @@ int write_file( char* filename, char* buffer, int size);
  *@Param int y: the width of the board
  *@return int: 0 if successful
  */
-int* createBoard(int x, int y, int* buffer);
+int* createBoard(int x, int y, int* ptr);
 
 /*
  *A method to check the surroundings of a cell and update that cell

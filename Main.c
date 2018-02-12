@@ -27,7 +27,7 @@ int main(int argc, char** argv){
 	printf("%s\n", argv[2]);
 	
 	*board = createBoard(atoi(argv[1]),atoi(argv[2]),*board);
-	//printf("%i", board);
+	printf("%i\n", board);
 /*
 	while(){
 		copyBoard(atoi(argv[1],atoi(argv[2]),board);
