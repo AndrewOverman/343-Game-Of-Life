@@ -10,7 +10,6 @@
 	#include <stdlib.h>
 	#include <unistd.h>
 	
-	int checkSurrond(int x, int y, int** buffer);
 /*
  *This is a main method to run the whole project
  *@Param int argc: The number of arguments given in the command line
@@ -34,7 +33,7 @@ int main(int argc, char** argv){
 */
 	for(i = 0; i < atoi(argv[1]); i++){
 		for(j = 0; j < atoi(argv[2]); j++){	
-			//checkSurrond(atoi(argv[1]),atoi(argv[2]), board);
+			checkSurround(atoi(argv[1]),atoi(argv[2]), board);
 		}
 	}
 

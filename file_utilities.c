@@ -23,8 +23,8 @@ int read_file( char* filename, char **buffer ){
 		if(fileptr == NULL){
 			printf("Error, could not find file\n");
 			return 1;
-		}	
-		
+		}
+	
 		while(fgets(*buffer,1000,fileptr)!=NULL){
 			printf("%s",*buffer);
 		}
@@ -132,7 +132,7 @@ int checkSurround(int x, int y, int** buffer){
  *@Param int x: the width of the board
  *@Param int y: the height of the board
  */
-void copyBoard(int x, int y, int** buffer){
+int* copyBoard(int x, int y, int** buffer){
 	int i, j = 0;
 	int *copy[x];
 
@@ -145,6 +145,7 @@ void copyBoard(int x, int y, int** buffer){
 			copy[i][j] = buffer[i][j];
 		}
 	}
+	return *copy;
 }
 
 /*
