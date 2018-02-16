@@ -13,6 +13,8 @@
  *@Param char* filename: The name of the file being read
  *@Param char** buffer: The array that the board is being saved into
  *@return int: 0 if successful
+ * got the code to get the file size off of stack overflow. It uses the fseek, the ftell, and fread
+ * https://stackoverflow.com/questions/174531/easiest-way-to-get-files-contents-in-c
  */
 int read_file( char* filename, char **buffer ){
 
@@ -24,10 +26,14 @@ int read_file( char* filename, char **buffer ){
 			printf("Error, could not find file\n");
 			return 1;
 		}
-	
-		while(fgets(*buffer,1000,fileptr)!=NULL){
-			printf("%s",*buffer);
-		}
+		
+		fseek(fileptr, 0, SEEK_END);
+		int size = ftell(fileptr);
+		fseek(fileptr, 0, SEEK_SET);
+
+		*buffer = malloc(sizeof(char) * size);
+
+		fread(*buffer, 1, size, fileptr);
 
 		fclose(fileptr);
 
@@ -273,5 +279,5 @@ void updateBoard(int x, int y, int*** buffer){
 		}
 		printf("|\n");
 	}
-	printf("\n\n\n");
+	printf("\n");
 }

@@ -9,6 +9,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <unistd.h>
+	#include <string.h>
 	
 /*
  *This is a main method to run the whole project
@@ -35,9 +36,6 @@ int main(int argc, char** argv){
 	//these method calls instantiate board and copy to the size specified in the command line
 	createBoard(x, y, (&board));
 	createBoard(x, y, (&copy));
-	
-	//This is the method used to print the board
-	updateBoard(x, y, (&board));
 	
 	/** This is the filename used later in the save and load functions */
 	char* filename = "test.txt";
@@ -74,12 +72,44 @@ int main(int argc, char** argv){
 		//this is if the user picks to open a file. The file comes from the variable filename. Change this variable to choose a different file
 		if(choose == 1){
 			printf("loading...\n\n");
-			//read_file(filename, board);
+			char* container;
+			int check;
+			check = read_file(filename, &container);
+			if (check == 1) {
+				printf("Sorry, I could not find the file");
+			}
+			char end = '\n';
+			int count = 0;
+			for (i = 0; i < x; i++) {
+				for (j = 0; j < y; j++) {
+					if (container[count] == end) {
+						count++;
+					}
+					board[i][j] = (container[count] - 48);
+					count++;
+				}
+			}
+			printf("Here is your board:\n\n");
+			updateBoard(x, y, (&board));
+			free(container);
 		}
 		//this is to save the board to a file. The file comes from the variable filename. Change this variable to choose a different save location. 
 		else if(choose == 2){
 			printf("saving...\n\n");
-			//write_file();
+			char* container;
+			int size = ((sizeof(int)*x)*y) + sizeof(char) * x;
+			container = malloc(size);
+			int count = 0;
+			for (i = 0; i < x; i++) {
+				for (j = 0; j < y; j++) {
+					container[count] = (board[i][j] + 48);
+					count++;
+				}
+				container[count] = '\n';
+				count++;
+			}
+			write_file("test2.txt", container, size);
+			free(container);
 		}
 		//This is the next generation option. All the code for making the next generation and printing it will run if this is chosen. 
 		else if(choose == 3){
@@ -107,4 +137,3 @@ int main(int argc, char** argv){
 		}
 	}
 }
-
